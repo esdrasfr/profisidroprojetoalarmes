@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.isidrocorp.dashboard.dao.EventoDAO;
 import br.com.isidrocorp.dashboard.dto.IntervaloDatas;
+import br.com.isidrocorp.dashboard.dto.VolumeAlarmes;
 import br.com.isidrocorp.dashboard.model.Evento;
 
 @CrossOrigin("*")
@@ -40,5 +41,14 @@ public class EventoController {
 		Evento evt = dao.findById(id).get();
 		return evt;
 	}
+	
+	@GetMapping("/eventos/consolidado/todos")
+	public ArrayList<VolumeAlarmes> recuperarConsolidado(){
+		return dao.getAllVolumes();
+	}
 
+	@PostMapping("/eventos/consolidado/intervalo")
+	public ArrayList<VolumeAlarmes> recuperarConsolidadoPeloIntervalo(@RequestBody IntervaloDatas intervalo){
+		return dao.getAllByDatas(intervalo.getDataInicio(), intervalo.getDataFim());
+	}
 }
